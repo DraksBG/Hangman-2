@@ -16,30 +16,81 @@ namespace Hangman2
             string word = words[r.Next(0, words.Count)];
             return word;
         }
-        static string WordToGuessUpper(string wordToGuess)
-        {
-            string wordToUpper = wordToGuess.ToUpper();
-            return wordToUpper;
-        }
-        static StringBuilder displayToPlayer(string wordToGuess)
+      
+        static string displayToPlayer(string wordToGuess)
         {
 
-            StringBuilder displayToPlayer = new StringBuilder(wordToGuess.Length);
+            string displayToPlayer = wordToGuess;
             for (int i = 0; i < wordToGuess.Length; i++)
-                displayToPlayer.Append('_');
+                displayToPlayer += "_";
             return displayToPlayer;
         }
-        static 
-        static List<char> correctGuesses()
-        {
 
+        static char Input()
+        {
+            char inputt = char.Parse(Console.ReadLine());
+            return inputt;
+        }
+
+        static List<char> correctGuesses(char inputt, string wordToGuess ,int lettersReveald, string playersSees)
+        {
+            
+            List<char> CorrectGuesses = new List<char>();
+            for (int i = 0; i < wordToGuess.Length; i++)
+            {
+                if (wordToGuess[i] == inputt)
+                {
+                   playersSees.ToCharArray()[i] = wordToGuess[i];
+                    lettersReveald++;
+                }
+            }
+            return CorrectGuesses;
+        }
+        static List<char> IncorrectGuesses(char inputt, string wordToGuess, int guesses)
+        {
+            List<char> incorrectGuesses = new List<char>();
+            for (int i = 0; i < wordToGuess.Length; i++)
+            {
+                
+                if (wordToGuess[i] != inputt)
+                {
+                    incorrectGuesses.Add(inputt);
+                    Console.WriteLine("Nope, there's no '{0}' in it!", inputt);
+                    guesses--;
+                }
+            }
+            return incorrectGuesses;
+        }
+        static bool GameIsRunning(int guesses, string wordToGuess, int lettersReveald)
+        {
+            if (guesses >=10 && lettersReveald == wordToGuess.Length)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 
 
         static void Main(string[] args)
         {
+            
             string wordToGuess = RandomWord();
+            string playersSees = displayToPlayer(wordToGuess);
+            int lettersReveald = 0;
+            int guesses = 10;
+
+            while (GameIsRunning(guesses,wordToGuess,lettersReveald))
+            {
+                Console.WriteLine("Guess a letter: ");
+
+                char inputt = Input();
+                correctGuesses(inputt,wordToGuess,lettersReveald, playersSees);
+            }
+
         }
     }
 }
