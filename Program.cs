@@ -44,6 +44,7 @@ namespace Hangman2
                     lettersReveald++;
                 }
             }
+           
             return CorrectGuesses;
         }
         static List<char> IncorrectGuesses(char inputt, string wordToGuess, int guesses)
@@ -63,15 +64,28 @@ namespace Hangman2
         }
         static bool GameIsRunning(int guesses, string wordToGuess, int lettersReveald)
         {
-            if (guesses >=10 && lettersReveald == wordToGuess.Length)
+            if (guesses >=10)
             {
+                
                 return true;
             }
-            else
+            else if (guesses == 0)
             {
                 return false;
             }
+             if (lettersReveald == wordToGuess.Length)
+            {
+                Console.WriteLine("You have won the game");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+            
+           
         }
+        
 
 
 
@@ -89,6 +103,9 @@ namespace Hangman2
 
                 char inputt = Input();
                 correctGuesses(inputt,wordToGuess,lettersReveald, playersSees);
+                IncorrectGuesses(inputt, wordToGuess, guesses);
+
+                
             }
 
         }
